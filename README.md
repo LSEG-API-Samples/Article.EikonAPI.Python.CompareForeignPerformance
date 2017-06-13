@@ -60,7 +60,7 @@ Following steps are implemented in this sample:
 	perf = pd.concat([perf1, perf2, perf2 * curr], axis=1)
 	label3 = 'Adjusted ' + instr2;
 	perf.columns = [instr1, instr2, label3]
-	5 drop invalid entries from dataframe
+	# drop invalid entries from dataframe
 	perf = perf.dropna()
 	```
 

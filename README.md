@@ -76,6 +76,8 @@ Following steps are implemented in this sample:
 	perf_norm.iplot()
 	```
 
+See attached iPython notebook for complete working sample	
+	
 ### Related samples
 Thomson Reuters [github samples repository](https://github.com/TR-API-Samples) has many more samples and snippets of code showing other uses of Eikon scripting API. Just search for python or Eikon within repositories.
 

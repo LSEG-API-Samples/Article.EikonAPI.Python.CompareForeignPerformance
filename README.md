@@ -3,15 +3,9 @@
 This article demonstrates how a user can use Eikon Scripting Python API to quickly prototype and plot custom analytics which are not readily available within Eikon. The example shown here is one of the many use case, that a Quants/Analysts can employ to analyze financial data. 
 
 ### Eikon Scripting API
-Thomson Reuters provides a python library for accessing market data. This Eikon library is available from python packages and can be installed using pip package manager. The library itself depends on **Eikon Scripting Proxy**, which is an application running in the local network which connects to Eikon back end system in cloud. The Proxy runs with a user's Eikon credentials, and provides a web interface to data, like: 
+Thomson Reuters provides a python library for accessing market data. This Eikon library depends on **Eikon Scripting Proxy**, which runs with a user's Eikon credentials, and provides a web interface to data, like End of day/ intraday prices, News, Symbology etc.
 
-* End of day and intraday prices
-* News
-* Symbology conversion
-* Reference data
-* Streaming market price (coming soon), etc..
-
-These services can be consumed either in a pure web manner (sending HTTP post request to the proxy) or using the provided python library. The python API calls invoke the underlying web methods and marshal JSON data into python usable data types (Pandas DataFrame).
+For more information on Scripting API, please visit [Thomson Reuters Developers Portal](https://developers.thomsonreuters.com/eikon-apis/eikon-web-and-scripting-apis-limited-access).
 
 ### Use cases
 The scripting API can be used to retrieve any of the rich, value added data point which are available within Eikon. The real power of API is when inhouse-data is combined with pricing and analytics sourced from Eikon. Some sample use cases are:
@@ -24,8 +18,9 @@ The scripting API can be used to retrieve any of the rich, value added data poin
 * Visualize the currency-unhedged performance of a domestic vs foreign asset
 	
 ### Application Sample
-The goal of this article sample is to demonstrate how easy it is to perform a simple analysis and plot it on a chart. This what-if analysis compares the return of the a foreign asset against a domestic asset, if same dollar amount was invested in either one; taking into account the currency fluctuation rate during the comparison period.
-The sample accomplishes this by getting the trade currency of both the assets, and then requesting the calculated cross rate for this currency pair. Performance data for both the assets is requested, which is first scaled using the currency cross rate data and then normalized. The normalized data can then be plotted on a line chart.
+The goal of this article sample is to demonstrate how easy it is to perform a simple analysis and plot it on a chart. This what-if analysis compares the return of the a foreign asset against a domestic asset, if same dollar amount was invested in either one; taking into account the currency fluctuation rate during the comparison period. The term domestic is used loosely here; this approach can be used to compare any two assets traded in any currencies. The sample accomplishes this by getting the trade currency of both the assets, and then requesting the calculated cross rate for this currency pair. Performance data for both the assets is requested, which is first scaled using the currency cross rate data and then normalized. The normalized data can then be plotted on a line chart. 
+
+The code sample compares the performance of a Canadian bank - TD, trading on Toronto Stock Exchange in Canadian Dollars with British bank - Barclays, trading on London Stock Exchange in Pound Sterling.
 
 ### Dependencies
 To try the code provided in this article, a setup and familiarity with following technologies is required:  
@@ -33,50 +28,63 @@ Python language
 JSON  
 Pandas Data Analysis library  
 Jupyter (iPython) Notebooks  
-Cufflinks and Plotly Charting library  
-
+Plotly (or Cufflinks) Charting library  
+The code provided with this article was tested using python (3.6.1), eikon (0.1.7), numpy (1.12.1), pandas (0.20.1) and plotly (1.12.9)  
 		
 ### Implementation
-Following steps are implemented in this sample:
+Following steps are executed to achieve the comparison chart:
 
-1. Define a domestic and foreign instruments and a time range
-2. Get the market cap currency for both instruments
+1. Define a domestic and foreign instruments and a time range for comparison. Since the performance data is normalized, any one of the two instruments can be considered as base (domestic) and other as foreign, and it will produce the same output.
+
+2. Get the market cap currency for both instruments. The Currency field in Eikon datafield "TR.CompanyMarketCap" is used here.
 
 	```python
 	data,err = ek.get_data([instr1, instr2], "TR.CompanyMarketCap.Currency")
 	```
 
-3. Create a currency cross-rate RIC and get historical data for the given time range
+3. Create a currency cross-rate RIC and get historical data for the given time range. The cross rate is calculated by Thomson Reuters if no indicated rate exists for the currency pair. This RIC is formed by appending =X to both currencies. For e.g. Calculated cross rate RIC for GBP vs CAD would be "GBPCAD=X".
 
 	```python
 	crossRIC = data['Currency'][1] + data['Currency'][0] + '=X'
 	curr = ek.get_timeseries([crossRIC], fields='CLOSE', start_date=start_date, end_date=end_date)
 	```
 
-4. Get historical data (CLOSE Price) for both instruments
+4. Get historical data (CLOSE Price) for both instruments for requested time range.
+
 5. Scale foreign asset using the currency data
 
 	```python
-	perf = pd.concat([perf1, perf2, perf2 * curr], axis=1)
-	label3 = 'Adjusted ' + instr2;
-	perf.columns = [instr1, instr2, label3]
+	# create a single DataFrame with both data series (useful if using cufflinks to plot instead of plotly)
+	perf = pd.concat([perf1, perf2 * curr], axis=1)
+	perf.columns = [instr1, instr2]
 	# drop invalid entries from dataframe
 	perf = perf.dropna()
 	```
 
-6. Normalize the data for plotting
+6. Normalize the data to 100% so that both instruments start out at same point visually.
 
 	```python
-	perf_norm = perf * 100 / (perf[instr1][0], perf[instr2][0], perf[label3][0])
+	# rescale both timeseries to 100% at start date
+	perf_norm = perf * 100 / (perf[instr1][0], perf[instr2][0])
 	```
 
-7. Plot a double line chart
+7. Plot a double line chart. The two chart lines will show the % growth/loss of a unit of investment on both instruments.
 
 	```python
-	perf_norm.iplot()
+	# using offline plotly for charting
+	offline.iplot([{
+		'x': perf_norm.index,
+		'y': perf_norm[col],
+		'name': col
+	}  for col in perf_norm.columns])	
 	```
 
-See attached iPython notebook for complete working sample	
+	
+	![Sample Chart](pic.png)
+	
+	
+	
+See the attached iPython notebook for complete working sample	
 	
 ### Related samples
 Thomson Reuters [github samples repository](https://github.com/TR-API-Samples) has many more samples and snippets of code showing other uses of Eikon scripting API. Just search for python or Eikon within repositories.

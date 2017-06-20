@@ -79,9 +79,11 @@ Following steps are executed to achieve the comparison chart:
 	}  for col in perf_norm.columns])	
 	```
 
+### Output
 	
-	![Sample Chart](pic.png)
-	
+![Sample Chart](pic.png)
+
+This chart shows that an equal dollar amount insvested in TD in Jan 2015 and withdrawn Jan 2017 would net 20% gain vs 16% loss in Barclays, when factoring in the currency movement.
 	
 	
 See the attached iPython notebook for complete working sample	

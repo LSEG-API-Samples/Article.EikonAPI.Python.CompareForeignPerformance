@@ -18,9 +18,9 @@ The scripting API can be used to retrieve any of the rich, value added data poin
 * Visualize the currency-unhedged performance of a domestic vs foreign asset
 	
 ### Application Sample
-The goal of this article sample is to demonstrate how easy it is to perform a simple analysis and plot it on a chart. This what-if analysis compares the return of the a foreign asset against a domestic asset, if same dollar amount was invested in either one; taking into account the currency fluctuation rate during the comparison period. The term domestic is used loosely here; this approach can be used to compare any two assets traded in any currencies. The sample accomplishes this by getting the trade currency of both the assets, and then requesting the calculated cross rate for this currency pair. Performance data for both the assets is requested, which is first scaled using the currency cross rate data and then normalized. The normalized data can then be plotted on a line chart. 
+The goal of this article sample is to demonstrate how easy it is to perform a simple analysis and plot it on a chart. This what-if analysis compares the return of a foreign asset against a domestic asset, as if same dollar amount was invested in either one; taking into account the currency fluctuation rate during the comparison period. The term domestic is used loosely here and this approach can be used to compare any two assets, trading in any currencies. The sample accomplishes this by getting the trade currency of both the assets, and then requesting the calculated cross rate for this currency pair. Performance data for both the assets is requested, which is first scaled using the currency cross rate data and then normalized. The normalized data can then be plotted on a line chart. 
 
-The code sample compares the performance of a Canadian bank - TD, trading on Toronto Stock Exchange in Canadian Dollars with British bank - Barclays, trading on London Stock Exchange in Pound Sterling.
+The accompanying sample compares the performance of a Canadian bank - TD (TD.TO), trading on Toronto Stock Exchange in Canadian Dollars with British bank - Barclays (BARC.L), trading on London Stock Exchange in Pound Sterling.
 
 ### Dependencies
 To try the code provided in this article, a setup and familiarity with following technologies is required:  
@@ -51,7 +51,7 @@ Following steps are executed to achieve the comparison chart:
 
 4. Get historical data (CLOSE Price) for both instruments for requested time range.
 
-5. Scale foreign asset using the currency data
+5. Scale the foreign asset using the currency cross rate we retrieved earlier. 
 
 	```python
 	# create a single DataFrame with both data series (useful if using cufflinks to plot instead of plotly)
@@ -61,7 +61,7 @@ Following steps are executed to achieve the comparison chart:
 	perf = perf.dropna()
 	```
 
-6. Normalize the data to 100% so that both instruments start out at same point visually.
+6. Normalize the data to the start time period, so that initial investment in both instruments shows up as 100%.
 
 	```python
 	# rescale both timeseries to 100% at start date

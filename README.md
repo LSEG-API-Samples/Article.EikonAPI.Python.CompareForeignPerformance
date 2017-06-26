@@ -61,11 +61,11 @@ Following steps are executed to achieve the comparison chart:
 	perf = perf.dropna()
 	```
 
-6. Normalize the data to the start time period, so that initial investment in both instruments shows up as 100%.
+6. Rebase the data to the start time period, so that initial investment in both instruments shows up as 100%.
 
 	```python
-	# rescale both timeseries to 100% at start date
-	perf_norm = perf * 100 / (perf[instr1][0], perf[instr2][0])
+	# rebase both timeseries to 100% at start date
+	perf_rb = perf * 100 / (perf[instr1][0], perf[instr2][0])
 	```
 
 7. Plot a double line chart. The two chart lines will show the % growth/loss of a unit of investment on both instruments.
@@ -73,10 +73,10 @@ Following steps are executed to achieve the comparison chart:
 	```python
 	# using offline plotly for charting
 	offline.iplot([{
-		'x': perf_norm.index,
-		'y': perf_norm[col],
+		'x': perf_rb.index,
+		'y': perf_rb[col],
 		'name': col
-	}  for col in perf_norm.columns])	
+	}  for col in perf_rb.columns])	
 	```
 
 ### Output

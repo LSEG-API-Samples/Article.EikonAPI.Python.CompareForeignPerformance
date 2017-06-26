@@ -80,7 +80,7 @@ Following steps are executed to achieve the comparison chart:
 	```
 
 #### Simplification
-The code sample above breaks the implementation into multiple steps for clarification and to show as an example, how various data and timeseries can be retrieved from Eikon. A simple implementation of this code would be
+The code sample above breaks the implementation into multiple steps for clarification and to show as an example, how various data and timeseries can be retrieved using Eikon API. A simple implementation of this code would be:
 	
 ```python
 response, error = ek.get_data(instruments=[instr1, instr2], fields=['TR.ClosePrice.Date', 'TR.ClosePrice.Value'], 

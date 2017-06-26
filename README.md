@@ -79,6 +79,22 @@ Following steps are executed to achieve the comparison chart:
 	}  for col in perf_rb.columns])	
 	```
 
+The code sample above breaks the implementation into multiple steps for clarification and to show as an example, how various data and timeseries can be retrieved from Eikon. A simple implementation of this code would be: 	
+	
+	```python
+	response, error = ek.get_data(instruments=[instr1, instr2], fields=['TR.ClosePrice.Date', 'TR.ClosePrice.Value'], parameters={'Curn’:'CAD','SDate':start_date,'EDate':end_date,'Frq':'D'})
+	df = response.pivot_table(values='Close Price', index=['Date', 'Instrument']).unstack('Instrument').dropna()
+	rebased = df.apply(lambda series: series/series[0]*100)
+
+	offline.iplot([{
+		'x': rebased.index,
+		'y': rebased[column],
+		'name': column[1]
+	}  for column in rebased.columns])
+	```
+	
+	
+	
 ### Output
 The resulting chart shows that an equal dollar amount invested in TD in Jan 2015 and withdrawn Jan 2017 would net 20% gain vs 16% loss in Barclays, when factoring in the currency movement.
 ![Sample Chart](pic.png)

@@ -85,7 +85,7 @@ The code sample above breaks the implementation into multiple steps for clarific
 ```python
 # get and rebase the data
 response, error = ek.get_data(instruments=[instr1, instr2], fields=['TR.ClosePrice.Date', 'TR.ClosePrice.Value'], 
-	parameters={'Curn’:'CAD','SDate':start_date,'EDate':end_date,'Frq':'D'})
+	parameters={'Curn':'CAD','SDate':start_date,'EDate':end_date,'Frq':'D'})
 df = response.pivot_table(values='Close Price', index=['Date', 'Instrument']).unstack('Instrument').dropna()
 rebased = df.apply(lambda series: series/series[0]*100)
 

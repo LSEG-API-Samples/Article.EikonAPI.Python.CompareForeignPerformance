@@ -19,6 +19,7 @@ To try the code provided in this article, a setup and familiarity with following
 * Pandas Data Analysis library  
 * Jupyter (iPython) Notebooks  
 * Plotly (or Cufflinks) Charting library  
+
 The code provided with this article was tested using python (3.6.1), eikon (0.1.7), numpy (1.12.1), pandas (0.20.1) and plotly (1.12.9)  
 		
 ### Implementation

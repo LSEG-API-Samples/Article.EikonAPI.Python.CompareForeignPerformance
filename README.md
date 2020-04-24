@@ -5,7 +5,7 @@ This article demonstrates how a user can use Eikon Python API to quickly prototy
 ### Eikon Python API
 Thomson Reuters provides an ease of use python library for accessing market data, timeseries, fundamental and reference data and news. This Eikon library depends on **Eikon Scripting Proxy**, which runs with user's Eikon credentials, and provides data retrieval Web interface on top of which ease of use Python library is built.
 
-For more information on Eikon Python API, please visit [Thomson Reuters Developers Portal](https://developers.thomsonreuters.com).
+For more information on Eikon Python API, please visit [Thomson Reuters Developers Portal](https://developers.refinitiv.com).
 
 ### Application Sample
 The goal of this article is to demonstrate how easy it is to perform a simple analysis and plot it on a chart. This what-if analysis compares the return of a foreign asset against a domestic asset, if the same dollar amount was invested in both; taking into account the currency exchange rate during the comparison period. The term domestic is used loosely here and this approach can be used to compare any two assets, trading in any currencies. The sample accomplishes this by getting the trade currency of both the assets, and then requesting the calculated cross rate for this currency pair. Timeseries of price history for both assets are first expressed in units of domestic currency and then rebased to the start of the comparison period. The rebased data is then plotted on a line chart. 

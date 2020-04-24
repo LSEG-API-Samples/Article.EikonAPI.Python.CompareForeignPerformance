@@ -95,9 +95,9 @@ The resulting chart shows that an equal Canadian dollar amount invested in TD on
 See the attached iPython notebook for complete working sample.	
 	
 ### Related samples
-Thomson Reuters [github samples repository](https://github.com/TR-API-Samples) has many more samples and snippets of code showing other uses of Eikon scripting API. Just search for python or EikonAPI within repositories.
+Thomson Reuters [github samples repository](https://github.com/Refinitiv-API-Samples) has many more samples and snippets of code showing other uses of Eikon scripting API. Just search for python or EikonAPI within repositories.
 
 ### Reference
-[Eikon Scripting API](https://developers.thomsonreuters.com/eikon-apis/eikon-web-and-scripting-apis-limited-access)   
+[Eikon Scripting API](https://developers.refinitiv.com/eikon-apis/eikon-web-and-scripting-apis-limited-access)   
 [Pandas library](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html)   
 [Plotly Charting](https://plot.ly/)   
